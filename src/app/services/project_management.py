@@ -1,9 +1,9 @@
+import hashlib
 from typing import Any, cast
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.exceptions.http_exceptions import BadRequestException, DuplicateValueException, NotFoundException
-from ..core.security import get_password_hash
 from ..crud.crud_projects import crud_projects
 from ..crud.crud_users import crud_users
 from ..schemas.project import ProjectCreate, ProjectCreateInternal, ProjectRead
@@ -20,7 +20,7 @@ async def create_user(db: AsyncSession, user: UserCreate) -> dict[str, Any]:
         raise DuplicateValueException("Username not available")
 
     user_internal_dict = user.model_dump()
-    user_internal_dict["hashed_password"] = get_password_hash(password=user_internal_dict["password"])
+    user_internal_dict["hashed_password"] = hashlib.sha256(user_internal_dict["password"].encode()).hexdigest()
     del user_internal_dict["password"]
 
     user_internal = UserCreateInternal(**user_internal_dict)
