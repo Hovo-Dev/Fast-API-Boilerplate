@@ -27,4 +27,3 @@ jobs:
       run: uv run pytest
       env:
         ENVIRONMENT: local
-        SECRET_KEY: test-secret-key-for-testing-only

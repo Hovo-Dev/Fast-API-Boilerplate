@@ -53,9 +53,8 @@ def sample_user_data():
     """Generate sample user data for tests."""
     return {
         "name": fake.name(),
-        "username": fake.user_name(),
+        "username": fake.user_name().lower().replace("_", "").replace(".", "")[:20] or "testuser",
         "email": fake.email(),
-        "password": fake.password(),
     }
 
 
