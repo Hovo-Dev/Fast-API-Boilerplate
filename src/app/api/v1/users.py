@@ -1,18 +1,25 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, Request
-from fastcrud import PaginatedListResponse, compute_offset, paginated_response
+from fastapi import APIRouter, Depends, Query, Request
+from fastcrud import PaginatedListResponse, paginated_response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...api.dependencies import get_current_superuser, get_current_user
 from ...core.db.database import async_get_db
-from ...core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
-from ...core.security import blacklist_token, get_password_hash, oauth2_scheme
+from ...core.exceptions.http_exceptions import (
+    BadRequestException,
+    DuplicateValueException,
+    ForbiddenException,
+    NotFoundException,
+)
+from ...core.security import blacklist_token, oauth2_scheme
+from ...crud.crud_projects import crud_projects
 from ...crud.crud_rate_limit import crud_rate_limits
 from ...crud.crud_tier import crud_tiers
 from ...crud.crud_users import crud_users
 from ...schemas.tier import TierRead
-from ...schemas.user import UserCreate, UserCreateInternal, UserRead, UserTierUpdate, UserUpdate
+from ...schemas.user import UserCreate, UserRead, UserTierUpdate, UserUpdate
+from ...services import project_management
 
 router = APIRouter(tags=["users"])
 
@@ -21,40 +28,35 @@ router = APIRouter(tags=["users"])
 async def write_user(
     request: Request, user: UserCreate, db: Annotated[AsyncSession, Depends(async_get_db)]
 ) -> dict[str, Any]:
-    email_row = await crud_users.exists(db=db, email=user.email)
-    if email_row:
-        raise DuplicateValueException("Email is already registered")
+    return await project_management.create_user(db=db, user=user)
 
-    username_row = await crud_users.exists(db=db, username=user.username)
-    if username_row:
-        raise DuplicateValueException("Username not available")
 
-    user_internal_dict = user.model_dump()
-    user_internal_dict["hashed_password"] = get_password_hash(password=user_internal_dict["password"])
-    del user_internal_dict["password"]
-
-    user_internal = UserCreateInternal(**user_internal_dict)
-    created_user = await crud_users.create(db=db, object=user_internal, schema_to_select=UserRead)
-
-    if created_user is None:
-        raise NotFoundException("Failed to create user")
-
-    return created_user
+@router.post("/users", response_model=UserRead, status_code=201)
+async def write_user_for_project_management(
+    request: Request, user: UserCreate, db: Annotated[AsyncSession, Depends(async_get_db)]
+) -> dict[str, Any]:
+    return await project_management.create_user(db=db, user=user)
 
 
 @router.get("/users", response_model=PaginatedListResponse[UserRead])
 async def read_users(
-    request: Request, db: Annotated[AsyncSession, Depends(async_get_db)], page: int = 1, items_per_page: int = 10
+    request: Request,
+    db: Annotated[AsyncSession, Depends(async_get_db)],
+    limit: Annotated[int, Query(ge=1, le=100)] = 10,
+    offset: Annotated[int, Query(ge=0)] = 0,
 ) -> dict:
-    users_data = await crud_users.get_multi(
-        db=db,
-        offset=compute_offset(page, items_per_page),
-        limit=items_per_page,
-        is_deleted=False,
-    )
+    users_data = await crud_users.get_multi(db=db, offset=offset, limit=limit, is_deleted=False)
 
-    response: dict[str, Any] = paginated_response(crud_data=users_data, page=page, items_per_page=items_per_page)
+    page = (offset // limit) + 1
+    response: dict[str, Any] = paginated_response(crud_data=users_data, page=page, items_per_page=limit)
     return response
+
+
+@router.get("/users/{id}", response_model=UserRead)
+async def read_user_by_id(
+    request: Request, id: int, db: Annotated[AsyncSession, Depends(async_get_db)]
+) -> dict[str, Any]:
+    return await project_management.get_user_by_id(db=db, id=id)
 
 
 @router.get("/user/me/", response_model=UserRead)
@@ -118,6 +120,9 @@ async def erase_user(
     if username != current_user["username"]:
         raise ForbiddenException()
 
+    if await crud_projects.exists(db=db, owner_user_id=db_user["id"], is_deleted=False):
+        raise BadRequestException("This user owns active projects and cannot be deleted")
+
     await crud_users.delete(db=db, username=username)
     await blacklist_token(token=token, db=db)
     return {"message": "User deleted"}
@@ -130,13 +135,24 @@ async def erase_db_user(
     db: Annotated[AsyncSession, Depends(async_get_db)],
     token: str = Depends(oauth2_scheme),
 ) -> dict[str, str]:
-    db_user = await crud_users.exists(db=db, username=username)
+    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
     if not db_user:
         raise NotFoundException("User not found")
+
+    if await crud_projects.exists(db=db, owner_user_id=db_user["id"], is_deleted=False):
+        raise BadRequestException("This user owns active projects and cannot be deleted")
 
     await crud_users.db_delete(db=db, username=username)
     await blacklist_token(token=token, db=db)
     return {"message": "User deleted from the database"}
+
+
+@router.delete("/users/{id}")
+async def erase_user_by_id(
+    request: Request, id: int, db: Annotated[AsyncSession, Depends(async_get_db)]
+) -> dict[str, str]:
+    await project_management.delete_user_by_id(db=db, id=id)
+    return {"message": "User deleted"}
 
 
 @router.get("/user/{username}/rate_limits", dependencies=[Depends(get_current_superuser)])
