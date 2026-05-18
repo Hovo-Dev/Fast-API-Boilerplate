@@ -1,6 +1,6 @@
 from collections.abc import Callable, Generator
 from typing import Any
-from unittest.mock import AsyncMock, Mock
+from unittest.mock import Mock
 
 import pytest
 from faker import Faker
@@ -49,16 +49,6 @@ def mock_db():
 
 
 @pytest.fixture
-def mock_redis():
-    """Mock Redis connection for unit tests."""
-    mock_redis = Mock()
-    mock_redis.get = AsyncMock(return_value=None)
-    mock_redis.set = AsyncMock(return_value=True)
-    mock_redis.delete = AsyncMock(return_value=True)
-    return mock_redis
-
-
-@pytest.fixture
 def sample_user_data():
     """Generate sample user data for tests."""
     return {
@@ -72,31 +62,12 @@ def sample_user_data():
 @pytest.fixture
 def sample_user_read():
     """Generate a sample UserRead object."""
-    from uuid6 import uuid7
-
     from src.app.schemas.user import UserRead
 
     return UserRead(
         id=1,
-        uuid=uuid7(),
         name=fake.name(),
         username=fake.user_name(),
         email=fake.email(),
         profile_image_url=fake.image_url(),
-        is_superuser=False,
-        created_at=fake.date_time(),
-        updated_at=fake.date_time(),
-        tier_id=None,
     )
-
-
-@pytest.fixture
-def current_user_dict():
-    """Mock current user from auth dependency."""
-    return {
-        "id": 1,
-        "username": fake.user_name(),
-        "email": fake.email(),
-        "name": fake.name(),
-        "is_superuser": False,
-    }
