@@ -1,4 +1,6 @@
+import base64
 import hashlib
+import secrets
 from typing import Any, cast
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,7 +22,11 @@ async def create_user(db: AsyncSession, user: UserCreate) -> dict[str, Any]:
         raise DuplicateValueException("Username not available")
 
     user_internal_dict = user.model_dump()
-    user_internal_dict["hashed_password"] = hashlib.sha256(user_internal_dict["password"].encode()).hexdigest()
+    salt = secrets.token_bytes(16)
+    password_hash = hashlib.pbkdf2_hmac("sha256", user_internal_dict["password"].encode(), salt, 390_000)
+    salt_b64 = base64.b64encode(salt).decode()
+    hash_b64 = base64.b64encode(password_hash).decode()
+    user_internal_dict["hashed_password"] = f"{salt_b64}:{hash_b64}"
     del user_internal_dict["password"]
 
     user_internal = UserCreateInternal(**user_internal_dict)

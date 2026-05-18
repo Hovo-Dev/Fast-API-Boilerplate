@@ -20,9 +20,6 @@
   <a href="https://www.postgresql.org">
       <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
   </a>
-  <a href="https://redis.io">
-      <img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=fff&style=for-the-badge" alt="Redis">
-  </a>
   <a href="https://deepwiki.com/benavlabs/FastAPI-boilerplate">
       <img src="https://img.shields.io/badge/DeepWiki-1F2937?style=for-the-badge&logoColor=white" alt="DeepWiki">
   </a>
@@ -32,12 +29,9 @@
 
 * ⚡️ Fully async FastAPI + SQLAlchemy 2.0
 * 🧱 Pydantic v2 models & validation
-* 🔐 JWT auth (access + refresh), cookies for refresh
-* 👮 Rate limiter + tiers (free/pro/etc.)
 * 🧰 FastCRUD for efficient CRUD & pagination
-* 🧑‍💼 **CRUDAdmin**: minimal admin panel (optional)
-* 🚦 ARQ background jobs (Redis)
-* 🧊 Redis caching (server + client-side headers)
+* 👥 User and project management APIs
+* 🧭 Separate Alembic migrations for users and projects
 * 🌐 Configurable CORS middleware for frontend integration
 * 🐳 One-command Docker Compose
 * 🚀 NGINX & Gunicorn recipes for prod
@@ -46,7 +40,7 @@
 
 **Perfect if you want:**
 
-* A pragmatic starter with auth, CRUD, jobs, caching and rate-limits
+* A pragmatic starter focused on user/project CRUD and database migrations
 * **Sensible defaults** with the freedom to opt-out of modules
 * **Docs over boilerplate** in README - depth lives in the site
 
@@ -55,13 +49,8 @@
 **What you get:**
 
 * **App**: FastAPI app factory, [env-aware docs](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/development/) exposure
-* **Auth**: [JWT access/refresh](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/authentication/), logout via token blacklist
 * **DB**: Postgres + SQLAlchemy 2.0, [Alembic migrations](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/database/)
 * **CRUD**: [FastCRUD generics](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/database/crud/) (get, get_multi, create, update, delete, joins)
-* **Caching**: [decorator-based endpoints cache](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/caching/); client cache headers
-* **Queues**: [ARQ worker](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/background-tasks/) (async jobs), Redis connection helpers
-* **Rate limits**: [per-tier + per-path rules](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/rate-limiting/)
-* **Admin**: [CRUDAdmin views](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/admin-panel/) for common models (optional)
 
 This is what we've been using in production apps. Several applications running in production started from this boilerplate as their foundation - from SaaS platforms to internal tools. It's proven, stable technology that works together reliably. Use this as the foundation for whatever you want to build on top.
 
@@ -145,7 +134,7 @@ docker compose up
 ### One-command Docker run (migrations included)
 
 This repository now ships a root `Dockerfile` and `docker-compose.yml`.
-You can start app + PostgreSQL + Redis with:
+You can start app + PostgreSQL with:
 
 ```bash
 docker compose up --build
@@ -164,19 +153,9 @@ Swagger/OpenAPI is available at:
 
 ### Next steps
 
-**Create your first admin user:**
-```bash
-docker compose run --rm create_superuser
-```
-
 **Run database migrations** (if you add models):
 ```bash
 cd src && uv run alembic revision --autogenerate && uv run alembic upgrade head
-```
-
-**Test background jobs:**
-```bash
-curl -X POST 'http://127.0.0.1:8000/api/v1/tasks/task?message=hello'
 ```
 
 **Or run locally without Docker:**
@@ -184,16 +163,15 @@ curl -X POST 'http://127.0.0.1:8000/api/v1/tasks/task?message=hello'
 uv sync && uv run uvicorn src.app.main:app --reload
 ```
 
-> Full setup (from-scratch, .env examples, PostgreSQL & Redis, gunicorn, nginx) lives in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/installation/).
+> Full setup (from-scratch, .env examples, PostgreSQL, gunicorn, nginx) lives in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/installation/).
 
 ## Configuration (minimal)
 
-Create `src/.env` and set **app**, **database**, **JWT**, and **environment** settings. See the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/) for a copy-pasteable example and production guidance.
+Create `src/.env` and set **app**, **database**, and **environment** settings. See the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/) for a copy-pasteable example and production guidance.
 
 [https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/)
 
 * `ENVIRONMENT=local|staging|production` controls API docs exposure
-* Set `ADMIN_*` to enable the first admin user
 
 ## Common tasks
 
@@ -204,11 +182,9 @@ uv sync && uv run uvicorn src.app.main:app --reload
 # run Alembic migrations
 cd src && uv run alembic revision --autogenerate && uv run alembic upgrade head
 
-# enqueue a background job (example endpoint)
-curl -X POST 'http://127.0.0.1:8000/api/v1/tasks/task?message=hello'
 ```
 
-More examples (superuser creation, tiers, rate limits, admin usage) in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/first-run/).
+More examples for users/projects APIs and migrations are in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/first-run/).
 
 ## Contributing
 

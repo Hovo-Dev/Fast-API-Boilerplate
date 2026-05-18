@@ -18,14 +18,6 @@ services:
     networks:
       - app-network
 
-  redis:
-    image: redis:alpine
-    container_name: fastapi-boilerplate-redis
-    volumes:
-      - redis-data:/data
-    networks:
-      - app-network
-
   app:
     build:
       context: .
@@ -36,8 +28,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_started
     ports:
       - "8000:8000"
     networks:
@@ -45,7 +35,6 @@ services:
 
 volumes:
   postgres-data:
-  redis-data:
 
 networks:
   app-network:
