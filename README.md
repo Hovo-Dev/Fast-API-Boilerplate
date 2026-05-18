@@ -142,6 +142,21 @@ Sets up NGINX as reverse proxy with Gunicorn + Uvicorn workers for production.
 docker compose up
 ```
 
+### One-command Docker run (migrations included)
+
+This repository now ships a root `Dockerfile` and `docker-compose.yml`.
+You can start app + PostgreSQL + Redis with:
+
+```bash
+docker compose up --build
+```
+
+The app container waits for PostgreSQL, runs `alembic upgrade head`, then starts Uvicorn.
+Swagger/OpenAPI is available at:
+
+- http://127.0.0.1:8000/docs
+- http://127.0.0.1:8000/openapi.json
+
 **Access your app:**
 - **Local**: http://127.0.0.1:8000 (auto-reload enabled) → [API docs](http://127.0.0.1:8000/docs)
 - **Staging**: http://127.0.0.1:8000 (production-like performance)
