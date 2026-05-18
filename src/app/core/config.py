@@ -1,7 +1,7 @@
 import os
-from enum import Enum
+from enum import StrEnum
 
-from pydantic import SecretStr, computed_field
+from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -12,10 +12,6 @@ class AppSettings(BaseSettings):
     LICENSE_NAME: str | None = None
     CONTACT_NAME: str | None = None
     CONTACT_EMAIL: str | None = None
-
-
-class SecuritySettings(BaseSettings):
-    SECRET_KEY: SecretStr = SecretStr("secret-key")
 
 
 class FileLoggerSettings(BaseSettings):
@@ -57,7 +53,7 @@ class PostgresSettings(BaseSettings):
         return f"{credentials}@{location}"
 
 
-class EnvironmentOption(str, Enum):
+class EnvironmentOption(StrEnum):
     LOCAL = "local"
     STAGING = "staging"
     PRODUCTION = "production"
@@ -76,7 +72,6 @@ class CORSSettings(BaseSettings):
 class Settings(
     AppSettings,
     PostgresSettings,
-    SecuritySettings,
     EnvironmentSettings,
     CORSSettings,
     FileLoggerSettings,

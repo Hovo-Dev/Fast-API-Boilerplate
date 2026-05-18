@@ -1,0 +1,370 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1779128514730,
+  "projectRoot": "/Users/hovo-dev/WebstormProjects/Fast-API-Boilerplate",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "pyproject.toml"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "fastapi",
+        "version": null,
+        "category": "backend"
+      },
+      {
+        "name": "pytest",
+        "version": null,
+        "category": "testing"
+      }
+    ],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "pytest",
+    "lintCommand": "ruff check",
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "scripts",
+      "src",
+      "tests"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 2,
+      "lastAccessed": 1779128514716,
+      "keyFiles": [
+        "community.md",
+        "index.md"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 0,
+      "lastAccessed": 1779128514724,
+      "keyFiles": []
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1779128514725,
+      "keyFiles": [
+        "__init__.py",
+        "alembic.ini"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 4,
+      "lastAccessed": 1779128514725,
+      "keyFiles": [
+        "__init__.py",
+        "conftest.py",
+        "test_project_management.py",
+        "test_user.py"
+      ]
+    },
+    "docs/assets": {
+      "path": "docs/assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1779128514727,
+      "keyFiles": [
+        "FastAPI-boilerplate.png"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 2,
+      "lastAccessed": 1779128514727,
+      "keyFiles": [
+        "__init__.py",
+        "main.py"
+      ]
+    },
+    "src/migrations": {
+      "path": "src/migrations",
+      "purpose": "Database migrations",
+      "fileCount": 3,
+      "lastAccessed": 1779128514728,
+      "keyFiles": [
+        "README",
+        "env.py",
+        "script.py.mako"
+      ]
+    },
+    "src/scripts": {
+      "path": "src/scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1779128514728,
+      "keyFiles": [
+        "__init__.py"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 3,
+      "lastAccessed": 1779129439803,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/models/user.py",
+      "accessCount": 2,
+      "lastAccessed": 1779129634877,
+      "type": "file"
+    },
+    {
+      "path": "setup.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129385929,
+      "type": "file"
+    },
+    {
+      "path": "src/app/main.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129390524,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/config.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129390949,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/setup.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129391241,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/db/models.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129391634,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/db/database.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129392371,
+      "type": "file"
+    },
+    {
+      "path": "src/migrations/versions/20260518_0714_create_users_table.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129393261,
+      "type": "file"
+    },
+    {
+      "path": "src/migrations/versions/20260518_0715_create_projects_table.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129393398,
+      "type": "file"
+    },
+    {
+      "path": "src/app/models/project.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129397953,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/exceptions/cache_exceptions.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129398649,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/exceptions/http_exceptions.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129399397,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/health.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129399449,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/schemas.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129399744,
+      "type": "file"
+    },
+    {
+      "path": "src/app/middleware/client_cache_middleware.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129400592,
+      "type": "file"
+    },
+    {
+      "path": "src/app/middleware/logger_middleware.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129400917,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/v1/users.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129404901,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/v1/projects_management.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129405087,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/v1/health.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129405962,
+      "type": "file"
+    },
+    {
+      "path": "src/app/crud/crud_users.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129406227,
+      "type": "file"
+    },
+    {
+      "path": "src/app/crud/crud_projects.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129406599,
+      "type": "file"
+    },
+    {
+      "path": "src/app/schemas/user.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129407756,
+      "type": "file"
+    },
+    {
+      "path": "src/app/schemas/project.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129407808,
+      "type": "file"
+    },
+    {
+      "path": "src/app/services/project_management.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129408126,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129412656,
+      "type": "file"
+    },
+    {
+      "path": "src/app/models/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129412928,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/logger.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129413636,
+      "type": "file"
+    },
+    {
+      "path": "src/migrations/env.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129414010,
+      "type": "file"
+    },
+    {
+      "path": "src/alembic.ini",
+      "accessCount": 1,
+      "lastAccessed": 1779129414347,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/v1/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129440209,
+      "type": "file"
+    },
+    {
+      "path": "src/app/admin/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129440562,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/worker/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129440958,
+      "type": "file"
+    },
+    {
+      "path": "pyproject.toml",
+      "accessCount": 1,
+      "lastAccessed": 1779129445098,
+      "type": "file"
+    },
+    {
+      "path": "scripts/local_with_uvicorn/.env.example",
+      "accessCount": 1,
+      "lastAccessed": 1779129445497,
+      "type": "file"
+    },
+    {
+      "path": "scripts/local_with_uvicorn/docker-compose.yml",
+      "accessCount": 1,
+      "lastAccessed": 1779129445986,
+      "type": "file"
+    },
+    {
+      "path": "src/app/core/exceptions/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1779129481268,
+      "type": "file"
+    },
+    {
+      "path": "scripts/local_with_uvicorn/Dockerfile",
+      "accessCount": 1,
+      "lastAccessed": 1779129481563,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

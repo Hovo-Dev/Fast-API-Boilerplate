@@ -14,7 +14,6 @@ class UserBase(BaseModel):
 
 class User(TimestampSchema, UserBase, UUIDSchema, PersistentDeletion):
     profile_image_url: Annotated[str, Field(default="https://www.profileimageurl.com")]
-    hashed_password: str
 
 
 class UserRead(BaseModel):
@@ -29,11 +28,9 @@ class UserRead(BaseModel):
 class UserCreate(UserBase):
     model_config = ConfigDict(extra="forbid")
 
-    password: Annotated[str, Field(pattern=r"^.{8,}|[0-9]+|[A-Z]+|[a-z]+|[^a-zA-Z0-9]+$", examples=["Str1ngst!"])]
-
 
 class UserCreateInternal(UserBase):
-    hashed_password: str
+    pass
 
 
 class UserUpdate(BaseModel):
@@ -61,7 +58,3 @@ class UserDelete(BaseModel):
 
     is_deleted: bool
     deleted_at: datetime
-
-
-class UserRestoreDeleted(BaseModel):
-    is_deleted: bool

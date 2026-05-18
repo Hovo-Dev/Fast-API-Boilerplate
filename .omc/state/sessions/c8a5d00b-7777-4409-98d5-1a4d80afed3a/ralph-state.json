@@ -1,0 +1,12 @@
+{
+  "active": true,
+  "iteration": 1,
+  "max_iterations": 100,
+  "started_at": "2026-05-18T18:35:42.048Z",
+  "prompt": "/ralph caveman mode \nseparate migration for users and projects, remove the servics such as rate limit, jwt token stuff features, redis and other thigns we don't need for this, tremove the deps, files, implementation that has nothing in common with this task please, polish it a bit and update everything",
+  "session_id": "c8a5d00b-7777-4409-98d5-1a4d80afed3a",
+  "project_path": "/Users/hovo-dev/WebstormProjects/Fast-API-Boilerplate",
+  "linked_ultrawork": true,
+  "awaiting_confirmation": true,
+  "last_checked_at": "2026-05-18T18:35:42.049Z"
+}

@@ -1,0 +1,80 @@
+{
+  "title": "Clean FastAPI boilerplate - remove auth/redis/cache cruft, separate migrations",
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "Remove hashed_password from User model and migration",
+      "passes": false,
+      "acceptanceCriteria": [
+        "User model has no hashed_password field",
+        "Users migration has no hashed_password column",
+        "Projects migration unchanged and still depends on users migration"
+      ]
+    },
+    {
+      "id": "US-002",
+      "title": "Remove password/auth from User schemas and service",
+      "passes": false,
+      "acceptanceCriteria": [
+        "UserCreate has no password field",
+        "UserCreateInternal has no hashed_password",
+        "create_user service does no password hashing",
+        "No unused imports (base64, hashlib, secrets) in service"
+      ]
+    },
+    {
+      "id": "US-003",
+      "title": "Remove SecuritySettings from config",
+      "passes": false,
+      "acceptanceCriteria": [
+        "SecuritySettings class removed",
+        "Settings does not inherit SecuritySettings",
+        "SECRET_KEY not in config"
+      ]
+    },
+    {
+      "id": "US-004",
+      "title": "Delete unused files",
+      "passes": false,
+      "acceptanceCriteria": [
+        "cache_exceptions.py deleted",
+        "client_cache_middleware.py deleted",
+        "core/worker dir deleted",
+        "admin dir deleted"
+      ]
+    },
+    {
+      "id": "US-005",
+      "title": "Clean all .env.example files",
+      "passes": false,
+      "acceptanceCriteria": [
+        "No SECRET_KEY/ALGORITHM/ACCESS_TOKEN_EXPIRE_MINUTES",
+        "No REDIS_* vars",
+        "No ADMIN_* vars",
+        "No CLIENT_CACHE_MAX_AGE",
+        "No TIER_* vars",
+        "All three script variant .env.example files updated"
+      ]
+    },
+    {
+      "id": "US-006",
+      "title": "Clean all docker-compose files",
+      "passes": false,
+      "acceptanceCriteria": [
+        "redis service removed from all docker-compose files",
+        "worker service removed from all docker-compose files",
+        "create_superuser service removed from all docker-compose files",
+        "redis-data volume removed",
+        "web service no longer depends_on redis"
+      ]
+    },
+    {
+      "id": "US-007",
+      "title": "ruff lint passes",
+      "passes": false,
+      "acceptanceCriteria": [
+        "ruff check src/ exits 0"
+      ]
+    }
+  ]
+}
